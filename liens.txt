@@ -1,0 +1,5 @@
+Exemple d'interface (celle qu'on a montré à la prof):
+http://homeomath.imingo.net/methrect.htm
+
+Exemple de code Java (voir en de page)
+http://stackoverflow.com/questions/3381817/how-to-solve-an-integral-in-java
