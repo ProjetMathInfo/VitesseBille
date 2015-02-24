@@ -22,8 +22,10 @@ import maths.Expression;
 	    private JTextField texteFonction;
 	    private Expression expression;
 	    private JPanel panneauDessin;
+	    
+	    /*-----------------------*/
 
-	    public TracerFonction() {
+	    public TracerFonction(int w,int h) {
 	        super("Calcule et représentaion graphique");
 
 	        champsParametres = new JTextField[titresParametres.length];
@@ -69,6 +71,7 @@ import maths.Expression;
 
 	        setContentPane(panneauDeContenu);
 	        setDefaultCloseOperation(EXIT_ON_CLOSE);
+	        this.setSize(w, h);
 	        pack();
 	        setVisible(true);
 	        
@@ -133,13 +136,15 @@ import maths.Expression;
                     JOptionPane.ERROR_MESSAGE);
             }
         panneauDessin.repaint();
+  
     }
 	        
 
 
-	    public static void main(String[] args) {
+	   public static void main(String[] args) {
 	        JFrame.setDefaultLookAndFeelDecorated(true);
-	        new TracerFonction();
+	     
+	        new TracerFonction(800,600);
 	    }
 		
 }

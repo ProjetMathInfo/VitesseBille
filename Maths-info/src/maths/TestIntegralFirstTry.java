@@ -68,6 +68,15 @@ public class TestIntegralFirstTry {
 
 		double res=0;
 		//formule du composite du trapeze
+		 /*double trapezoid_integrate(const ContainerA &x, const ContainerB &y) {
+			 if (x.size() != y.size()) {
+			 throw std::logic_error("x and y must be the same size");
+			 }
+			 double sum = 0.0;
+			 for (int i = 1; i < x.size(); i++) {
+			 sum += (x[i] - x[i-1]) * (y[i] + y[i-1]);
+			 }
+			 return sum * 0.5;*/
 
 		return res;
 	}
