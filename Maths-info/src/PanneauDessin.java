@@ -22,7 +22,7 @@ import maths.*;
             if (expr != null) {
 
             	
-                // obtention des paramËtres du tracÈ
+                // obtention des paramƒçtres du trac√©
                 double xMin = cadre.getXmin();
                 double xMax = cadre.getXmax() ;
                 double deltaX = cadre.deltaX();
@@ -40,7 +40,7 @@ import maths.*;
                 double Ay = -d.height / (yMax - yMin);
                 double By = -Ay * yMax;
 
-                // tracÈ des axes
+                // trac√© des axes
                 Color coulPrec = g.getColor();
                 g.setColor(Color.ORANGE);
                 if (yMin * yMax < 0) { /* pour abs*/
@@ -59,7 +59,7 @@ import maths.*;
                    
                 }
                 
-             // tracÈ de la grille
+             // trac√© de la grille
                 p = Math.round(Math.floor(xMin / deltaX)); // pas
                 pMax = Math.round(Math.ceil(xMax / deltaX)); //totale pas
                 for ( ; p <= pMax; p++) {
@@ -78,15 +78,22 @@ import maths.*;
                 }
                 g.setColor(coulPrec);
 
-                // tracÈ de la fonction
+                // trac√© de la fonction
                 double dx = (xMax - xMin) / nombrePas;
                 int xp = 0, yp = 0;
                 for (double x = xMin; x <= xMax; x += dx) {
                     double y = expr.valeur(x);
                     int xc = (int) (Ax * x + Bx);
                     int yc = (int) (Ay * y + By);
-                    if (xc != 0)
+                    if (xc != 0){
                         g.drawLine(xp, yp, xc, yc);
+						/*int a[]={xp,xp,xc,xc};
+                        int b[]={0,yp,yc,0};*/
+                        int a[]={10,10,20,20};
+                        int b[]={0,10,50,0};
+                        Polygon p1=new Polygon(a,b,4);
+                        g.drawPolygon(p1);
+					}
                     xp = xc;
                     yp = yc;
                 }
@@ -119,7 +126,7 @@ import maths.*;
     				}
     	
     	/**
-    	* Trace le repËre.
+    	* Trace le repƒçre.
     	*/
     	
   /*  public void trace (Graphics g)
