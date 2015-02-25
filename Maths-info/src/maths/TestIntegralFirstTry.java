@@ -1,5 +1,7 @@
 package maths;
 
+import maths.formules.*;
+
 
 
 public class TestIntegralFirstTry {
@@ -99,9 +101,17 @@ public class TestIntegralFirstTry {
 		    b=1.0;
 		    n=10;
 
-		    res=pointMilieu(a,b,n);
+		    //res=pointMilieu(a,b,n);
 
-			System.out.println("L'integrale vaut: "+res);
+			//System.out.println("L'integrale vaut: "+res);
+		    Fonction f=new Fonction();
+		    CalculIntegrale i=new CalculIntegrale(f);
+		    i.executer(10);
+		    i.setComposite(new PointDuMilieu());
+		    i.executerComposite(10);
+		    i.setComposite(new Trapeze());
+		    i.executerComposite(10);
+
 
 	}
 }
