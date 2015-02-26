@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import maths.*;
     public class PanneauDessin extends JPanel {
-        private static final int nombrePas = 1000;
+        private static final int nombrePas = 10;
         private TracerFonction cadre;
         /*private JLabel gaduate;*/
         public PanneauDessin(TracerFonction cadre) {
@@ -87,10 +87,8 @@ import maths.*;
                     int yc = (int) (Ay * y + By);
                     if (xc != 0){
                         g.drawLine(xp, yp, xc, yc);
-						/*int a[]={xp,xp,xc,xc};
-                        int b[]={0,yp,yc,0};*/
-                        int a[]={10,10,20,20};
-                        int b[]={0,10,50,0};
+						int a[]={xp,xp,xc,xc};
+                        int b[]={(int)(By),yp,yc,(int)(By)};
                         Polygon p1=new Polygon(a,b,4);
                         g.drawPolygon(p1);
 					}

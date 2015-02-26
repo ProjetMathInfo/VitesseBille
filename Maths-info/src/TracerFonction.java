@@ -15,8 +15,8 @@ import maths.Expression;
 	            "Y min", "Y max", "delta Y" };
 	    
 
-	                                        // valeurs par défaut
-	    private double[] valeurParametres = { -1.0, +1.0, 0.2, -1.0, +1.0, 0.2 };
+	                                        // valeurs par dÃ©faut
+	    private double[] valeurParametres = { 0.0, +1.0, 0.2, 0.0, +1.0, 0.2 };
 	    private JTextField[] champsParametres;
 
 	    private JTextField texteFonction;
@@ -26,7 +26,7 @@ import maths.Expression;
 	    /*-----------------------*/
 
 	    public TracerFonction(int w,int h) {
-	        super("Calcule et représentaion graphique");
+	        super("Calcule et reprÃ©sentaion graphique");
 
 	        champsParametres = new JTextField[titresParametres.length];
 	        for (int i = 0; i < titresParametres.length; i++)
@@ -46,7 +46,7 @@ import maths.Expression;
 	        }
 	        panA.setBorder(BorderFactory.createCompoundBorder(
 	                BorderFactory.createTitledBorder(
-	                        BorderFactory.createEtchedBorder(), "Paramètres"), 
+	                        BorderFactory.createEtchedBorder(), "ParamÄtres"), 
 	                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	        
 	        JButton boutonTracer = new JButton("Tracer");
@@ -59,7 +59,7 @@ import maths.Expression;
 	        panneauDeGauche.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
 
 	        JPanel panneauDuBas = new JPanel(new GridLayout(0, 1));
-	        panneauDuBas.add(new JLabel("Expression à tracer: f(x) ="));
+	        panneauDuBas.add(new JLabel("Expression Å• tracer: f(x) ="));
 	        panneauDuBas.add(texteFonction);
 	        panneauDuBas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -80,7 +80,7 @@ import maths.Expression;
 	       
 	        boutonTracer.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evt) {
-	                preparerLeTracé();}
+	                preparerLeTracÃ©();}
 	        });
 	    }
 	 
@@ -112,9 +112,9 @@ import maths.Expression;
         return valeurParametres[5];
     }
 
-    private void preparerLeTracé() {
+    private void preparerLeTracÃ©() {
 
-        // on récupère la fonction et on l'analyse
+        // on rÃ©cupÄre la fonction et on l'analyse
         try {
             String s = texteFonction.getText();
             Analyseur analyseur = new Analyseur(s);
@@ -148,5 +148,4 @@ import maths.Expression;
 	    }
 		
 }
-
 
