@@ -91,6 +91,7 @@ import maths.*;
                         int b[]={(int)(By),yp,yc,(int)(By)};
                         Polygon p1=new Polygon(a,b,4);
                         g.drawPolygon(p1);
+                       
 					}
                     xp = xc;
                     yp = yc;
