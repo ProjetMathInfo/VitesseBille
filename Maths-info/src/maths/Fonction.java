@@ -4,7 +4,7 @@ public class Fonction {
 	private String name;
 	
 	public Fonction(){
-		this.name="x²";
+		this.name="x*x";
 	}
 	
 	public String toString(){

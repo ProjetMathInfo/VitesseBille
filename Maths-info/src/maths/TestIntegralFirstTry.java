@@ -104,13 +104,13 @@ public class TestIntegralFirstTry {
 		    //res=pointMilieu(a,b,n);
 
 			//System.out.println("L'integrale vaut: "+res);
-		    Fonction f=new Fonction();
+		    /*Fonction f=new Fonction();
 		    CalculIntegrale i=new CalculIntegrale(f);
 		    i.executer(10);
 		    i.setComposite(new PointDuMilieu());
 		    i.executerComposite(10);
 		    i.setComposite(new Trapeze());
-		    i.executerComposite(10);
+		    i.executerComposite(10);*/
 
 
 	}
