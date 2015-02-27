@@ -100,18 +100,18 @@ public class TracerFonction extends JFrame {
 	        panneauDuBas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	        
 	        panelOnglet = new JTabbedPane(SwingConstants.TOP);
-	     
-	        panelOnglet.addTab("Panel1", null,onglet1);
+	      
+	        panelOnglet.addTab("Panel1", null,panneauDessin);
 	        panelOnglet.addTab("Panel2", null,onglet2);
-	        onglet1.add(panneauDessin, BorderLayout.CENTER);
-	        onglet1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	       
 	        
 	        JPanel panneauDeContenu = new JPanel(new BorderLayout());
 	        panneauDeContenu.add(panneauDeGauche, BorderLayout.WEST);
 	        panneauDeContenu.add(panneauDuBas, BorderLayout.SOUTH);
-	       /* panneauDeContenu.add(panneauDessin, BorderLayout.CENTER);*/
+	        panneauDeContenu.add(panelOnglet,BorderLayout.CENTER);
+	        /*panneauDeContenu.add(panneauDessin, BorderLayout.CENTER);*/
 	        panneauDeContenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	        panneauDeContenu.add(panelOnglet);
+	        
 
 	        setContentPane(panneauDeContenu);
 	        setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -219,7 +219,7 @@ public class TracerFonction extends JFrame {
 		}else if(s.equals("ErreurQuadrature")){
 				
 		}
-		
+
+		}
 	}
-}
 
