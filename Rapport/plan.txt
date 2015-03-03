@@ -1,0 +1,24 @@
+Vitesse de descente d'une bille le long d'un toboggan
+
+Rapport de Projet - Plan temporaire
+
+Intro
+
+Préface - Introduction au problème 
+
+1. Mise au point d'une méthode pour calculer T(y)
+	1.1 Calcul approché d'une intégrale
+	1.2 Calcul approché du temps de descente par la formule composite du point de milieu
+	...
+
+2. Conception et implémentation informatique
+	2.1 Conception de la solution (UML)
+	2.2 Problèmes et résolutions de contraintes
+	2.3 Présentation des résultats
+
+Conclusion
+	
+Annexes
+	Manuel de l'utilisateur
+	Captures d'écran
+	Extraits de code
