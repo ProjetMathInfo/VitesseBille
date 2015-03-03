@@ -1,0 +1,353 @@
+package projet_S4_2;
+
+public class Carree implements FonctionDerivable {
+	private FonctionDerivable f ;
+	
+	public Carree(FonctionDerivable f) {}
+	
+	public double eval(double x) {
+		return f.eval(x)*f.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return f;
+	}
+	public String toString() {
+		return f+"²" ;
+	}
+}
+
+package projet_S4_2;
+
+public class Cosinus implements FonctionDerivable {
+	
+	private static FonctionDerivable derivee=new Oppose(new Sinus()) ;
+	
+	public Cosinus() {}
+	
+	public double eval(double x) {
+		return Math.cos(x) ;
+	}
+	public FonctionDerivable derive() {
+		return derivee ;
+	}
+	public String toString() {
+		return "cos" ;
+	}
+}
+
+package projet_S4_2;
+
+public class DeriveeRacineCarre implements FonctionDerivable {
+		
+	private static FonctionDerivable derivee= new Sinus() ;
+	
+	public DeriveeRacineCarre(){}
+	
+	public double eval(double x) {
+		return (1/(2*Math.sqrt(x))) ;
+	}
+	
+	public String toString() {
+		return "1/(2√x)" ;
+	}
+	
+	public FonctionDerivable derive() {
+		return derivee;
+	}
+}
+
+package projet_S4_2;
+
+public class Difference implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	
+	public Difference(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)-g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Difference(f.derive(),g.derive()) ;
+	}
+	public String toString() {
+		return f+"-"+g ;
+	}
+}
+
+package projet_S4_2;
+
+public interface Fonction {
+	public double eval(double x) ;
+	
+	public static double dichotomie(Fonction f,double a,double b,double epsilon) {
+		if (f.eval(a)*f.eval(b)>0) 
+			return Double.NaN ;
+		while ((b-a)>epsilon) {
+			double c=(a+b)/2 ;
+			if (f.eval(a)*f.eval(c)<0)
+				b=c ;
+			else
+				a=c ;
+		}
+		return (a+b)/2 ;
+	}
+}
+
+package projet_S4_2;
+
+public interface FonctionDerivable extends Fonction {
+	
+	public FonctionDerivable derive() ;
+}
+
+package projet_S4_2;
+
+public interface Integrateur {
+	/* interface representant un schema d’integration numerique */
+	public double integre(Fonction f,double a,double b,int n) ;
+}
+
+package projet_S4_2;
+
+public class IntRectangle implements Integrateur {
+
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*f.eval(a+i*(b-a)/n) ;
+		return resultat ;
+	}
+}
+
+package projet_S4_2;
+
+public class IntTrapeze implements Integrateur {
+	
+	/* integrale par la methode des trapezes */
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*(f.eval(a+i*(b-a)/n)+f.eval(a+(i+1)*(b-a)/n))/2 ;
+		return resultat ;
+	}
+}
+
+package projet_S4_2;
+
+public class Oppose implements FonctionDerivable {
+	private FonctionDerivable f ;
+	
+	public Oppose(FonctionDerivable f) {
+		this.f=f ;
+	}
+	
+	public double eval(double x) {
+		return -f.eval(x) ;
+	}
+	
+	public FonctionDerivable derive() {
+		return new Oppose(f.derive()) ;
+	}
+	
+	public String toString() {
+		return "-"+f ;
+	}
+}
+
+package projet_S4_2;
+
+public class Polynome implements Fonction {
+	private double[] coefficients ;
+	
+	public Polynome(double[] coefficients) {
+		this.coefficients=coefficients ;
+	}
+	
+	public double eval(double x) {
+		double resultat=0 ;
+		for (int i=coefficients.length-1;i>0;i--) {
+			resultat+=coefficients[i] ;
+			resultat*=x ;
+		}
+		resultat+=coefficients[0] ;
+		return resultat ;
+	}
+	
+	/* renvoie la somme du polynome appelant et du parametre */
+	public Polynome somme(Polynome p) {
+		int n;
+		if (coefficients.length<p.coefficients.length)
+			n=p.coefficients.length ;
+		else
+		n=coefficients.length ;
+		double[] tab=new double[n] ;
+		for (int i=0;i<n;i++) {
+			if (i<coefficients.length)
+				tab[i]+=coefficients[i] ;
+			if (i<p.coefficients.length)
+				tab[i]+=p.coefficients[i] ;
+		}
+		return new Polynome(tab) ;
+	}
+}
+
+package projet_S4_2;
+
+public class Produit implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	public Produit(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)*g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Somme(
+		new Produit(f.derive(),g),
+		new Produit(f,g.derive())) ;
+	}
+	public String toString() {
+		return f+"*"+g ;
+	}
+}
+
+package projet_S4_2;
+
+public class Quotient implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	public Quotient(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)/g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Quotient(
+		(new Difference(new Produit(f.derive(),g),new Produit(f,g.derive()))),
+		new Carree(f)) ;
+	}
+	public String toString() {
+		return f+"/"+g ;
+	}
+}
+
+package projet_S4_2;
+
+public class RacineCarre implements FonctionDerivable {
+	
+	private static FonctionDerivable derivee = new DeriveeRacineCarre() ;
+	
+	public RacineCarre(){}
+	
+	public double eval(double x) {
+		return Math.sqrt(x) ;
+	}
+	public FonctionDerivable derive() {
+		return derivee ;
+	}
+	public String toString() {
+		return "√x" ;
+	}
+}
+
+package projet_S4_2;
+
+public class Sinus implements FonctionDerivable {
+	
+	private static FonctionDerivable derivee= new Cosinus() ;
+	
+	public Sinus(){}
+	
+	public double eval(double x) {
+		return Math.sin(x) ;
+	}
+	public FonctionDerivable derive() {
+		return derivee ;
+	}
+	public String toString() {
+		return "sin" ;
+	}
+}
+
+package projet_S4_2;
+
+public class Somme implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	
+	public Somme(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)+g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Somme(f.derive(),g.derive()) ;
+	}
+	public String toString() {
+		return f+"+"+g ;
+	}
+}
+
+package projet_S4_2;
+
+public class Test {
+	
+	public static double integraleTrapeze(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+		resultat+=(b-a)/n*(f.eval(a+i*(b-a)/n)+f.eval(a+(i+1)*(b-a)/n))/2 ;
+		return resultat ;
+	}
+	
+	public static double integraleRectangle(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*f.eval(a+i*(b-a)/n) ;
+		return resultat ;
+	}
+	
+	public static double dichotomie(Fonction f,double a,double b,double epsilon) {
+		if (f.eval(a)*f.eval(b)>0) return Double.NaN ;
+		while ((b-a)>epsilon) {
+			double c=(a+b)/2 ;
+			if (f.eval(a)*f.eval(c)<0)
+				b=c ;
+			else
+				a=c ;
+		}
+		return (a+b)/2 ;
+	}
+	
+	public static void main(String args[]) {
+		
+		FonctionDerivable f=new Cosinus() ;
+		
+		System.out.println(integraleTrapeze(f,0,Math.PI/2,100)) ;
+		
+		System.out.println(integraleRectangle(f,0,Math.PI/2,100)) ;
+		
+		Integrateur trapeze=new IntTrapeze() ;
+		System.out.println(trapeze.integre(f
+				,0,Math.PI/2,100)) ;
+		
+		System.out.println(dichotomie(f,0,Math.PI,0.001)) ;
+		
+		System.out.println(f.derive()) ;
+		
+		FonctionDerivable c=new Cosinus() ;
+		FonctionDerivable s=new Sinus() ;
+		FonctionDerivable p=new Produit(c,s) ;
+		System.out.println("la derivee de "+p+" est "+p.derive()) ;
+
+
+	}
+}
