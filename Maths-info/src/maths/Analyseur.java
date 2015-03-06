@@ -18,7 +18,7 @@ import java.io.StringReader;
 	        lexical.nextToken();
 	        Expression resultat = analyserExpression();
 	        if (lexical.ttype != StreamTokenizer.TT_EOF)
-	            throw new ErreurDeSyntaxe("caractère inattendu à la fin du texte");
+	            throw new ErreurDeSyntaxe("caractere inattendu a la fin du texte");
 	        return resultat;
 	    }
 

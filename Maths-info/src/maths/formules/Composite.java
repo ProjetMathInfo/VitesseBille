@@ -1,9 +1,10 @@
 package maths.formules;
+import maths.fonctions.*;
+import java.util.ArrayList;
 
-import maths.Fonction;
 
 public interface Composite {
 	
-	public abstract void calculComposite(int n, Fonction f);
+	public abstract ArrayList<ArrayList<Double>> calculComposite(int n, Fonction f);
 
 }

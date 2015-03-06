@@ -1,9 +1,10 @@
 package maths.formules;
-import maths.Fonction;
-import maths.formules.*;
+import java.util.ArrayList;
+import maths.fonctions.*;
+import java.util.ArrayList;
 
 public interface Formule {
 	
-	public abstract void resoudre(int n, Fonction f);
+	public abstract ArrayList<ArrayList<Double>> resoudre(int n, Fonction f);
 	
 }

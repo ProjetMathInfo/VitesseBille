@@ -1,8 +1,7 @@
 package maths;
 
+import maths.fonctions.*;
 import maths.formules.*;
-
-
 
 public class TestIntegralFirstTry {
 	public static double F1(double x) {
@@ -101,17 +100,43 @@ public class TestIntegralFirstTry {
 		    b=1.0;
 		    n=10;
 
-		    //res=pointMilieu(a,b,n);
-
-			//System.out.println("L'integrale vaut: "+res);
-		    /*Fonction f=new Fonction();
-		    CalculIntegrale i=new CalculIntegrale(f);
-		    i.executer(10);
-		    i.setComposite(new PointDuMilieu());
-		    i.executerComposite(10);
-		    i.setComposite(new Trapeze());
-		    i.executerComposite(10);*/
-
-
+		    /*
+		     * f(x)=x²
+		     */
+		    FonctionDerivable f1=new Carree(new Lineaire()) ;
+		   //System.out.println(f1.eval(2));
+		    CalculIntegrale i1=new CalculIntegrale(f1);
+		    System.out.println("\n\nTest du point du milieu de f(x)=(x)² \n"+i1.executer(10));
+		    
+		    i1.setComposite(new PointDuMilieu());
+		    System.out.println(i1.executerComposite(10));
+		    
+		    i1.setComposite(new Trapeze());
+		    System.out.println(i1.executerComposite(10));
+		    
+		    /*
+		     * f(x)=x²exp(x)
+		     */
+		    FonctionDerivable f12=new E(new Lineaire());
+		    FonctionDerivable f2=new Produit(f1, f12 ) ;
+		   //System.out.println(f.eval(2));
+		    CalculIntegrale i2=new CalculIntegrale(f2);
+		    System.out.println("\n\nTest du point du milieu de f(x)=(x)²*exp(x)\n"+i2.executer(10));
+		    
+		    i2.setComposite(new PointDuMilieu());
+		    System.out.println(i2.executerComposite(10));
+		    
+		    i2.setComposite(new Trapeze());
+		    System.out.println(i2.executerComposite(10));
+		    //Fonction f=new Cosinus();
+		    
+		    
+		    /*
+		     * Test produit de dérivée
+		     */
+		    FonctionDerivable c=new Cosinus() ;
+			FonctionDerivable s=new Sinus() ;
+			FonctionDerivable p=new Produit(c,s) ;
+			System.out.println("\n\nTest de dérivée\nla derivee de "+p+" est "+p.derive()) ;
 	}
 }

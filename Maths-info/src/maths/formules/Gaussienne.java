@@ -1,8 +1,8 @@
 package maths.formules;
 
 import java.util.ArrayList;
-
-import maths.Fonction;
+import maths.fonctions.*;
+import java.util.ArrayList;
 
 public class Gaussienne implements Formule{
 	private String name;
@@ -13,8 +13,9 @@ public class Gaussienne implements Formule{
 		this.tabValeur=new ArrayList<ArrayList<Double>>();
 	}
 	
-	public void resoudre(int n, Fonction fonction){
+	public ArrayList<ArrayList<Double>> resoudre(int n, Fonction fonction){
 		System.out.println("Résolution avec la méthode Gaussienne");
+		return this.tabValeur;
 	}
 	public String toString(){
 		return this.name;

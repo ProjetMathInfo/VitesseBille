@@ -1,4 +1,7 @@
 package maths;
+import maths.fonctions.*;
+
+import java.util.ArrayList;
 
 import maths.formules.*;
 
@@ -8,7 +11,7 @@ public class CalculIntegrale {
 	private Composite composite;
 
 	public CalculIntegrale(){
-		this.fonction=new Fonction();
+		//this.fonction=new Fonction();
 		this.formule=new PointDuMilieu();//par défaut, on résoud avec le PointDuMilieu
 		this.composite=new PointDuMilieu();
 	}
@@ -28,15 +31,15 @@ public class CalculIntegrale {
 		this.composite=c;
 	}
 	
-	public void executer(int n){
-		System.out.println("\nJe résous la fonction f(x)="+this.getFonction()
-				+" avec la formule "+this.getFormule());
-		this.formule.resoudre(n,this.getFonction());
+	public ArrayList<ArrayList<Double>> executer(int n){
+		//System.out.println("\nJe résous la fonction f(x)="+this.getFonction()
+		//	+" avec la formule "+this.getFormule());
+		return this.formule.resoudre(n,this.getFonction());
 	}
-	public void executerComposite(int n){
+	public ArrayList<ArrayList<Double>> executerComposite(int n){
 		System.out.println("\nJe résous la fonction f(x)="+this.getFonction()
 				+" avec la composite "+this.getComposite());
-		this.composite.calculComposite(n,this.getFonction());
+		return this.composite.calculComposite(n,this.getFonction());
 	}
 	
 	public void setFonction(Fonction fx){

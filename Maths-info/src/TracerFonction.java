@@ -1,10 +1,16 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 import javax.swing.*;
 
 import maths.*;
-import maths.Expression;
+import maths.fonctions.Carree;
+import maths.fonctions.E;
+import maths.fonctions.FonctionDerivable;
+import maths.fonctions.Lineaire;
+import maths.fonctions.Produit;
 import maths.formules.*;
 
 public class TracerFonction extends JFrame {
@@ -23,6 +29,8 @@ public class TracerFonction extends JFrame {
 	private JTabbedPane panelOnglet;
 	JPanel onglet1 = new JPanel();
 	JPanel onglet2 = new JPanel();
+	
+	 ArrayList<ArrayList<Double>> tab=new ArrayList<ArrayList<Double>>();
 	   
 	    
 	/*-----------------------*/
@@ -36,9 +44,6 @@ public class TracerFonction extends JFrame {
 	    JMenu mformules=new JMenu("Formules");
 	    jmd.add(mformules);
 	        
-	    JMenu mfonctions=new JMenu("Fonctions");
-	    jmd.add(mfonctions);
-	        
 	    JMenuItem ptDuMil=new JMenuItem("Point du milieu");
 	    mformules.add(ptDuMil);
 	    JMenuItem compositePM=new JMenuItem("Composite Point du Milieu");
@@ -51,36 +56,98 @@ public class TracerFonction extends JFrame {
 	    mformules.add(hybride);
 	    JMenuItem err=new JMenuItem("Erreur de Quadrature*");
 	    mformules.add(err);
+	    
+	    
+	    JMenu mfonctions=new JMenu("Fonctions");
+	    jmd.add(mfonctions);
+	    
+	    JMenuItem carree=new JMenuItem("(x)²");
+	    mfonctions.add(carree);
+	    JMenuItem carreeExp=new JMenuItem("(x)²*exp(x)");
+	    mfonctions.add(carreeExp);
+	    JMenuItem x34=new JMenuItem("(x)⁻³⁴");
+	    mfonctions.add(x34);
 	        
 	    ptDuMil.addActionListener(new ActionListener(){
-	    	public void actionPerformed(ActionEvent evt) {
-	    		System.out.println("Point du mileu");
+			public void actionPerformed(ActionEvent evt) {
+	    		System.out.println("Point du milieu");
 				CalculIntegrale c=new CalculIntegrale();
 				c.setFormule(new PointDuMilieu());
-				c.executer((int)TracerFonction.getIntervalle());
+				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
+				t=c.executer((int)TracerFonction.getIntervalle());
+				setTab(t);
+				System.out.println(t);
 				texteFonction.setText(c.getFonction()+"");
 				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
-	    		preparerLeTracer2(c.getFonction()+"");
-	    	}
-	    });
-	    compositePM.addActionListener(new ActionListener(){
-	    	public void actionPerformed(ActionEvent evt) {
-	    		System.out.println("Point du mileu");
-				CalculIntegrale c=new CalculIntegrale();
-				c.setComposite(new PointDuMilieu());
-				texteFonction.setText(c.getFonction()+"");
-	    		//preparerLeTracer2();
+	    		//preparerLeTracer2(c.getFonction()+"");
 	    	}
 	    });
 	    
-	    trapeze.addActionListener(new ChoixFormuleListener());
+	    compositePM.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+	    		System.out.println("Composite Point du milieu");
+				CalculIntegrale c=new CalculIntegrale();
+				c.setComposite(new PointDuMilieu());
+				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
+				t=c.executer((int)TracerFonction.getIntervalle());
+				tab=t;
+				texteFonction.setText(c.getFonction()+"");
+				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
+	    		//preparerLeTracer2(c.getFonction()+"");
+	    	}
+	    });
+	    
+	    trapeze.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+	    		System.out.println("Composite Point du milieu");
+				CalculIntegrale c=new CalculIntegrale();
+				c.setComposite(new Trapeze());
+				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
+				t=c.executer((int)TracerFonction.getIntervalle());
+				tab=t;
+				texteFonction.setText(c.getFonction()+"");
+				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
+	    		//preparerLeTracer2(c.getFonction()+"");
+	    	}
+	    });
 	    
 	    gaussienne.addActionListener(new ChoixFormuleListener());
 	    
 	    hybride.addActionListener(new ChoixFormuleListener());
 	    
 	    err.addActionListener(new ChoixFormuleListener());
-	        
+	    
+	    /*
+	     * listener fonction
+	     */
+	    carree.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				CalculIntegrale c=new CalculIntegrale();
+				c.setFonction(new Carree(new Lineaire()));
+				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
+				t=c.executer((int)TracerFonction.getIntervalle());
+				setTab(t);
+				System.out.println(t);
+				texteFonction.setText(c.getFonction()+"");
+				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
+	    		//preparerLeTracer2(c.getFonction()+"");
+	    	}
+	    });
+	    carreeExp.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				FonctionDerivable f12=new E(new Lineaire());
+			    FonctionDerivable f2=new Produit(new Carree(new Lineaire()), f12 ) ;
+				CalculIntegrale c=new CalculIntegrale();
+				c.setFonction(f2);
+				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
+				t=c.executer((int)TracerFonction.getIntervalle());
+				setTab(t);
+				System.out.println(t);
+				texteFonction.setText(c.getFonction()+"");
+				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
+	    		//preparerLeTracer2(c.getFonction()+"");
+	    	}
+	    });
 	    champsParametres = new JTextField[titresParametres.length];
 	    for (int i = 0; i < titresParametres.length; i++)
 	    	champsParametres[i] = new JTextField(5);
@@ -165,6 +232,12 @@ public class TracerFonction extends JFrame {
 	}
 	public static double getIntervalle(){
 		return valeurParametres[6];
+	}
+	public ArrayList<ArrayList<Double>> getTab(){
+		return this.tab;
+	}
+	public void setTab(ArrayList<ArrayList<Double>> t){
+		this.tab=t;
 	}
 	    
 
