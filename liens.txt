@@ -3,8 +3,3 @@ http://homeomath.imingo.net/methrect.htm
 
 Exemple de code Java (voir en de page)
 http://stackoverflow.com/questions/3381817/how-to-solve-an-integral-in-java
-
--j ai trouver un prgme comment calculer une intéragle grace a la formule du trapeze je l 'ai ajouté dans ta classe
-TestIntergaleFirstTry
--j ai aussi reussi a graduée l'axe sur le coté de notre graph 
--pour l aire je cherche encore

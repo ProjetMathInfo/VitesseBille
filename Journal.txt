@@ -1,0 +1,33 @@
+6.03
+Projet so far
+
+FONCTION:
+Les fonctions sont intégrées au projet. La fonction exp() s'appelle pour le moment class E.java (car Exp() existe dans
+Expression.java et je n'ai pas résolu le conflit)
+Pour créer une fonction f(x)=x, il faut faire: FonctionDerivable f=new Lineaire()
+Pour f(x)=x*x: FonctionDerivable f2=new Carree(new Lineaire()), pour les produits: new Produit(f,f2), etc....
+
+FORMULES:
+Pour un calcul intégral, il faut:
+CalculIntegrale i=new CalculIntegrale()
+i.setFonction(f)
+i.setFormule(new PointDuMilieu) ou i.setComposite(new Trapeze())
+i.executer(intervalle) ou i.executerComposite(intervalle) //return un tab
+
+Pour les tableaux, j'utilise toujours des ArrayList<ArryaList<Double>>, mais je vais changer dès que possible
+
+IHM:  
+Les fonctions x*x et x*x*exp(x) sont préchargées dans l'IHM, et on peut les afficher
+Les formules, seules Point Milieu, Composite Point Milieu et Composite Trapèze marche, et leur affichage ne marche pas
+
+RAPPORT:
+Désolée, je n'ai pas eu la foi de le commencer en semaine :(
+Mais le plan est fait et est ouvert à tout changement
+
+Ce qu'il nous reste:
+-Formules: Erreur de Quadrature, Hybride, Gaussiennes
+-fonctions: x^(-3/4), T(y), tous les y(x) possibles
+-IHM: affichage de tableau de résultat
+-Rapport
+
+(TT)
