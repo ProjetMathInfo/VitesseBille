@@ -61,11 +61,11 @@ public class TracerFonction extends JFrame {
 	    JMenu mfonctions=new JMenu("Fonctions");
 	    jmd.add(mfonctions);
 	    
-	    JMenuItem carree=new JMenuItem("(x)²");
+	    JMenuItem carree=new JMenuItem("(x)^²");
 	    mfonctions.add(carree);
-	    JMenuItem carreeExp=new JMenuItem("(x)²*exp(x)");
+	    JMenuItem carreeExp=new JMenuItem("(x)^²*exp(x)");
 	    mfonctions.add(carreeExp);
-	    JMenuItem x34=new JMenuItem("(x)⁻³⁴");
+	    JMenuItem x34=new JMenuItem("(x)^(-3/4)*");
 	    mfonctions.add(x34);
 	        
 	    ptDuMil.addActionListener(new ActionListener(){
