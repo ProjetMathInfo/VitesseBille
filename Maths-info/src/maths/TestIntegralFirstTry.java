@@ -109,10 +109,10 @@ public class TestIntegralFirstTry {
 		    System.out.println("\n\nTest du point du milieu de f(x)=(x)² \n"+i1.executer(10));
 		    
 		    i1.setComposite(new PointDuMilieu());
-		    System.out.println(i1.executerComposite(10));
+		    //System.out.println(i1.executerComposite(10));
 		    
 		    i1.setComposite(new Trapeze());
-		    System.out.println(i1.executerComposite(10));
+		    //System.out.println(i1.executerComposite(10));
 		    
 		    /*
 		     * f(x)=x²exp(x)
@@ -124,11 +124,21 @@ public class TestIntegralFirstTry {
 		    System.out.println("\n\nTest du point du milieu de f(x)=(x)²*exp(x)\n"+i2.executer(10));
 		    
 		    i2.setComposite(new PointDuMilieu());
-		    System.out.println(i2.executerComposite(10));
+		    //System.out.println(i2.executerComposite(10));
 		    
 		    i2.setComposite(new Trapeze());
-		    System.out.println(i2.executerComposite(10));
+		    //System.out.println(i2.executerComposite(10));
 		    //Fonction f=new Cosinus();
+		    
+		    /*
+		     * f(x)=x^(-3/4)
+		     */
+		    FonctionDerivable f31=new Lineaire();
+		    FonctionDerivable f3=new Puissance(f31,(-3.0/4.0)) ;
+		    CalculIntegrale i3=new CalculIntegrale(f3);
+		    i3.setComposite(new PointDuMilieu());
+		    System.out.println(i3.executerComposite(10));
+		    //System.out.println("\n\nTest du point du milieu de f(x)=(x)^(-3/4)\n"+i3.executer(10));
 		    
 		    
 		    /*
@@ -137,6 +147,6 @@ public class TestIntegralFirstTry {
 		    FonctionDerivable c=new Cosinus() ;
 			FonctionDerivable s=new Sinus() ;
 			FonctionDerivable p=new Produit(c,s) ;
-			System.out.println("\n\nTest de dérivée\nla derivee de "+p+" est "+p.derive()) ;
+			//System.out.println("\n\nTest de dérivée\nla derivee de "+p+" est "+p.derive()) ;
 	}
 }
