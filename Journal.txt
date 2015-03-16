@@ -1,3 +1,20 @@
+16.03
+
+J'ai chargé le dossier gnuplot sur le git (le dossier s'appelle src/com)
+
+Pour implémenter GNUPlot sur Eclipse, il suffit juste de "drag" le répertoire "com" vers Eclipse (comme on fait pour
+copier les classes)
+
+Ensuite à l'intérieur des classes, il faut ajouter au début:
+import com.panayotis.gnuplot.JavaPlot;
+Voir TestPlot.java pour un exemple concret 
+
+J'essaierai d'avancer au max sur les erreurs
+
+
+
+###############################################################
+
 6.03
 Projet so far
 
