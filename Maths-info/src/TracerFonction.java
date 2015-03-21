@@ -1,9 +1,11 @@
 
 import java.awt.*;
+import java.awt.Composite;
 import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 
 import maths.*;
 import maths.fonctions.Carree;
@@ -31,6 +33,9 @@ public class TracerFonction extends JFrame {
 	JPanel onglet2 = new JPanel();
 	
 	 ArrayList<ArrayList<Double>> tab=new ArrayList<ArrayList<Double>>();
+
+	    
+	 private JTable table;
 	   
 	    
 	/*-----------------------*/
@@ -91,6 +96,7 @@ public class TracerFonction extends JFrame {
 				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
 				t=c.executer((int)TracerFonction.getIntervalle());
 				tab=t;
+				
 				texteFonction.setText(c.getFonction()+"");
 				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
 	    		//preparerLeTracer2(c.getFonction()+"");
@@ -105,6 +111,7 @@ public class TracerFonction extends JFrame {
 				ArrayList<ArrayList<Double>> t=new ArrayList<ArrayList<Double>>();
 				t=c.executer((int)TracerFonction.getIntervalle());
 				tab=t;
+			    System.out.println(tab);	
 				texteFonction.setText(c.getFonction()+"");
 				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
 	    		//preparerLeTracer2(c.getFonction()+"");
@@ -182,19 +189,36 @@ public class TracerFonction extends JFrame {
 	    panneauDuBas.add(new JLabel("Expression a tracer: f(x) ="));
 	    panneauDuBas.add(texteFonction);
 	    panneauDuBas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	        
+	    
+	   	
+	    String  title[] = {"a", "b", "f(a)","f(b)","Resultat"};
+	   /* CalculIntegrale c=new CalculIntegrale(new Carree(new Lineaire()));
+	    ArrayList<ArrayList<Double>> t=c.executer(10);
+	    System.out.println(t);*/
+	    
+	  Object[][] fake={{1.0},{2.2},{3.5},{2.5},{3.5},{1.0},{2.2},{3.5},{2.5},{3.5}};// ne marche pas
+	  // Object[][] fake={{}}; ne marche pas
+	   //Double[][] data=tab.toArray(new Double[tab.size()][tab.size()]);  celui ci marche tab vide??
+	    //table = new JTable(data,title);
+	 
+	    table = new JTable(fake,title);
 	    panelOnglet = new JTabbedPane(SwingConstants.TOP);
-	      
 	    panelOnglet.addTab("Panel1", null,panneauDessin);
-	    panelOnglet.addTab("Panel2", null,onglet2);
+	    panelOnglet.addTab("Panel2", null,this.getContentPane().add(new JScrollPane(table)));
+	    
+	    pack();
+	
+	   /* JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(new JScrollPane(table));*/
 	       
 	    JPanel panneauDeContenu = new JPanel(new BorderLayout());
 	    panneauDeContenu.add(panneauDeGauche, BorderLayout.WEST);
 	    panneauDeContenu.add(panneauDuBas, BorderLayout.SOUTH);
 	    panneauDeContenu.add(panelOnglet,BorderLayout.CENTER);
+	   // panneauDeContenu.add(table,BorderLayout.CENTER);
 	    /*panneauDeContenu.add(panneauDessin, BorderLayout.CENTER);*/
 	    panneauDeContenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	        
+	   
 	    setContentPane(panneauDeContenu);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setSize(w, h);

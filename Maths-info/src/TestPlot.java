@@ -1,18 +1,12 @@
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 
-import javax.swing.*;
-
-import maths.*;
-import maths.formules.*;
 
 import com.panayotis.gnuplot.JavaPlot;
 
- 
+import com.panayotis.gnuplot.*;
 
-public class TestProjet {
+public class TestPlot {
 
     public static void main(String[] args) {
 
