@@ -20,10 +20,14 @@ package com.panayotis.gnuplot.swing;
 
 import com.panayotis.gnuplot.JavaPlot;
 import com.panayotis.gnuplot.terminal.ImageTerminal;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 /**
  * This Object uses an ImageTerminal as a backend, in order to draw the selected
@@ -35,6 +39,7 @@ public class JPlot extends JPanel {
 
     private JavaPlot plot;
     private ImageTerminal term;
+
 
     /**
      * Creates new form JPlot with a blank JavaPlot
@@ -52,6 +57,7 @@ public class JPlot extends JPanel {
         initComponents();
         term = new ImageTerminal();
         setJavaPlot(plot);
+       
     }
 
     /**
