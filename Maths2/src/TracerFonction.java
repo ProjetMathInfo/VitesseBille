@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
+import com.panayotis.gnuplot.JavaPlot;
+
 import maths.*;
 import maths.fonctions.*;
 import maths.formules.*;
@@ -35,9 +37,12 @@ public class TracerFonction extends JFrame {
 	 private JTable table;
 	  private JPanel pNordCentre=new JPanel();
 	
-	  private JLabel formule2=new JLabel("Formule:");
+	
 	  JLabel form=new JLabel("");
-	    
+	  private Object[][] tab2={{}};
+	  private ImageIcon tiger=new ImageIcon("C:/Users/hajar/Documents/B.png");
+	  
+	  
 	/*-----------------------*/
 
 	public TracerFonction(int w,int h) {
@@ -73,39 +78,120 @@ public class TracerFonction extends JFrame {
 	    JMenuItem x34=new JMenuItem("(x)^(-3/4)");
 	    mfonctions.add(x34);
 	    
-	    pNordCentre.add(formule2);
+	    
 	    pNordCentre.add(form);
-	  
-	   /* CalculIntegrale c=new CalculIntegrale(new Carree(new Lineaire()));
-	    Object[][] tab=c.executer(1);
-	    Object[][] tab2=c.executerComposite(5);*/
-		    
-	   Object[][] tab2={{}};
+	    
+	    champsParametres = new JTextField[titresParametres.length];
+	    for (int i = 0; i < titresParametres.length; i++)
+	    	champsParametres[i] = new JTextField(5);
+	    texteFonction = new JTextField();
+	    texteFonction.setFont(POLICE);
+	    panneauDessin = new PanneauDessin(this);
 
+	    JPanel panA = new JPanel(new GridLayout(0, 2, 5, 5));
+	    for (int i = 0; i < titresParametres.length; i++) {
+	    	champsParametres[i] = new JTextField(8);
+	    	champsParametres[i].setHorizontalAlignment(JTextField.RIGHT);
+	    	champsParametres[i].setFont(POLICE);
+	    	champsParametres[i].setText(valeurParametres[i] + "");
+	      	panA.add(new JLabel(titresParametres[i]));
+	      	panA.add(champsParametres[i]);
+	   	}
+	    panA.setBorder(BorderFactory.createCompoundBorder(
+	    		BorderFactory.createTitledBorder(
+	    				BorderFactory.createEtchedBorder(), "Paramtres"), 
+	    			BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+	    pNordCentre.setBorder(BorderFactory.createCompoundBorder(
+	    		BorderFactory.createTitledBorder(
+	    				BorderFactory.createEtchedBorder(), "Formule"), 
+	    			BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+	        
+	    JButton boutonTracer = new JButton("Tracer");
+	    JPanel panB = new JPanel(new FlowLayout());
+	    panB.add(boutonTracer);
+
+	    JPanel panneauDeGauche = new JPanel(new BorderLayout());
+	    panneauDeGauche.add(panA, BorderLayout.NORTH);
+	    panneauDeGauche.add(panB, BorderLayout.CENTER);
+	    panneauDeGauche.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
+
+	    JPanel panneauDuBas = new JPanel(new GridLayout(0, 1));
+	    panneauDuBas.add(new JLabel("Expression a tracer: f(x) ="));
+	    panneauDuBas.add(texteFonction);
+	    panneauDuBas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	    
+	   	
+	   
+		
+	   panelOnglet = new JTabbedPane(SwingConstants.TOP);
+	  
+	 
+	   //panelOnglet.addTab("Panel1", null,panneauDessin);
+	   /* JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(new JScrollPane(table));*/
+	    JPanel panneauDeContenu = new JPanel(new BorderLayout());
+	    panneauDeContenu.add(panneauDeGauche, BorderLayout.WEST);
+	    panneauDeContenu.add(panneauDuBas, BorderLayout.SOUTH);
+	   
+	    panneauDeContenu.add(pNordCentre, BorderLayout.NORTH);
+	   // panneauDeContenu.add(panelOnglet);
+	 
+	   // panneauDeContenu.add(table,BorderLayout.CENTER);
+	    /*panneauDeContenu.add(panneauDessin, BorderLayout.CENTER);*/
+	    panneauDeContenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	   
+	    setContentPane(panneauDeContenu);
+	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    this.setSize(w, h);
+	    pack();
+	    setVisible(true);
+	           
+	  
 		      String  title[] = {"a", "b", "f(a)","f(b)","Resultat"};
-		      tabModel=new DefaultTableModel(tab2,title);
-		      table=new JTable(tabModel);//celui ci c pour avoir une base
+		     
+		   /* table=new JTable(new DefaultTableModel(tab2,title));//celui ci c pour avoir une base
+		   panneauDeContenu.add(table,BorderLayout.CENTER);
+			panneauDeContenu.add(new JScrollPane(table));*/
+		     
 			
 	    /************************
 	     *  EVENT MENU FORMULE
 	     ***********************
 	     */
-
+			// panelOnglet.addTab("Panel2", null,this.getContentPane().add(new JScrollPane(table)));
+		      
+		panelOnglet.addMouseListener( new MouseAdapter(){
+		
+			public void mouseClicked(MouseEvent e)
+			{
+				int selectedIndex = panelOnglet.getSelectedIndex();
+				panelOnglet.remove(selectedIndex);
+				System.gc();
+			}
+		});
 	        
 	    ptDuMil.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
+				//panneauDeContenu.remove(table);
+				// panneauDeContenu.repaint();
 	    		System.out.println("Point du milieu");
 	    		form.setText("Point du milieu");
 	    	
 				//c.setFormule(new PointDuMilieu());
 			
-	    		 CalculIntegrale c=new CalculIntegrale(new Carree(new Lineaire()));
-	 		    Object[][] tab=c.executer(1);
-	 		    Object[][] tab2=c.executerComposite(5);
+	    		CalculIntegrale c=new CalculIntegrale(new Carree(new Lineaire()));
+	    		tab2=c.executer(10);
+	 		   
 				System.out.println(tab2);
-				tabModel=new DefaultTableModel(tab, title);
-				 table=new JTable(tabModel);
+				
+				table=new JTable(new DefaultTableModel(tab2, title));
+				
+				panelOnglet.addTab("PointMil",tiger,new JScrollPane(table)); 
+				panneauDeContenu.add(panelOnglet,BorderLayout.CENTER);
+				
 				texteFonction.setText(c.getFonction()+"");	
+				
+				
 				
 				//Object[][] t=c.executer((int)TracerFonction.getIntervalle());
 				//setTab(t)
@@ -116,12 +202,21 @@ public class TracerFonction extends JFrame {
 	    
 	    compositePM.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
+				
+				 //panneauDeContenu.repaint();
 	    		System.out.println("Composite Point du milieu");
 	    		form.setText("Composite Point du milieu");
 				CalculIntegrale c=new CalculIntegrale();
-				c.setComposite(new PointDuMilieu());
-				Object[][] t=c.executer((int)TracerFonction.getIntervalle());
+				tab2=c.executerComposite(10);
+				panneauDeContenu.remove(table);
+				table=new JTable(new DefaultTableModel(tab2, title));
+				 panelOnglet.addTab("FComposite", tiger,new JScrollPane(table)); 
+				 panneauDeContenu.add(panelOnglet,BorderLayout.CENTER);
+				 
 				
+				 
+				//c.setComposite(new PointDuMilieu());
+				//Object[][] t=c.executer((int)TracerFonction.getIntervalle());
 				texteFonction.setText(c.getFonction()+"");
 				System.out.println(tab);
 				//tabModel=new DefaultTableModel(tab, title);
@@ -134,8 +229,9 @@ public class TracerFonction extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				form.setText("Trapéze");
 				CalculIntegrale c=new CalculIntegrale();
-				//c.setComposite(new Trapeze());
-				Object[][] t=c.executerComposite((int)TracerFonction.getIntervalle());	
+				
+				tab2=c.executerComposite(10);
+				//Object[][] t=c.executerComposite((int)TracerFonction.getIntervalle());	
 				texteFonction.setText(c.getFonction()+"");
 				//c.setFonction(texteFonction.getText());GROS PB pour analyser et convertir en Fonction
 	    		//preparerLeTracer2(c.getFonction()+"");
@@ -209,76 +305,15 @@ public class TracerFonction extends JFrame {
 	    		//preparerLeTracer2(c.getFonction()+"");
 	    	}
 	    });
-	    champsParametres = new JTextField[titresParametres.length];
-	    for (int i = 0; i < titresParametres.length; i++)
-	    	champsParametres[i] = new JTextField(5);
-	    texteFonction = new JTextField();
-	    texteFonction.setFont(POLICE);
-	    panneauDessin = new PanneauDessin(this);
-
-	    JPanel panA = new JPanel(new GridLayout(0, 2, 5, 5));
-	    for (int i = 0; i < titresParametres.length; i++) {
-	    	champsParametres[i] = new JTextField(8);
-	    	champsParametres[i].setHorizontalAlignment(JTextField.RIGHT);
-	    	champsParametres[i].setFont(POLICE);
-	    	champsParametres[i].setText(valeurParametres[i] + "");
-	      	panA.add(new JLabel(titresParametres[i]));
-	      	panA.add(champsParametres[i]);
-	   	}
-	    panA.setBorder(BorderFactory.createCompoundBorder(
-	    		BorderFactory.createTitledBorder(
-	    				BorderFactory.createEtchedBorder(), "Paramtres"), 
-	    			BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-	        
-	    JButton boutonTracer = new JButton("Tracer");
-	    JPanel panB = new JPanel(new FlowLayout());
-	    panB.add(boutonTracer);
-
-	    JPanel panneauDeGauche = new JPanel(new BorderLayout());
-	    panneauDeGauche.add(panA, BorderLayout.NORTH);
-	    panneauDeGauche.add(panB, BorderLayout.CENTER);
-	    panneauDeGauche.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
-
-	    JPanel panneauDuBas = new JPanel(new GridLayout(0, 1));
-	    panneauDuBas.add(new JLabel("Expression a tracer: f(x) ="));
-	    panneauDuBas.add(texteFonction);
-	    panneauDuBas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	    
-	   	
-	   
-		
-	   // panelOnglet = new JTabbedPane(SwingConstants.TOP);
-	    //panelOnglet.addTab("Panel1", null,panneauDessin);
-	  //  panelOnglet.addTab("Panel2", null,this.getContentPane().add(new JScrollPane(table)));
-	    
-	    
-	
-	   /* JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(new JScrollPane(table));*/
-	    
-	   
-	       
-	    JPanel panneauDeContenu = new JPanel(new BorderLayout());
-	    panneauDeContenu.add(panneauDeGauche, BorderLayout.WEST);
-	    panneauDeContenu.add(panneauDuBas, BorderLayout.SOUTH);
-	    panneauDeContenu.add(table,BorderLayout.CENTER);
-	    panneauDeContenu.add(new JScrollPane(table));
-	    panneauDeContenu.add(pNordCentre, BorderLayout.NORTH);
-	 
-	   // panneauDeContenu.add(table,BorderLayout.CENTER);
-	    /*panneauDeContenu.add(panneauDessin, BorderLayout.CENTER);*/
-	    panneauDeContenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	   
-	    setContentPane(panneauDeContenu);
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    this.setSize(w, h);
-	    pack();
-	    setVisible(true);
-	           
 	    //Event
 	    boutonTracer.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent evt) {
-	    		preparerLeTracer();}
+	    		 JavaPlot p = new JavaPlot(true);
+	    	        p.addPlot("sin(x)*y");
+	    	        p.plot();
+	    		//preparerLeTracer();
+	    	        }
 	    });    
 	}
 	 
@@ -346,8 +381,13 @@ public class TracerFonction extends JFrame {
 
 
 	public static void main(String[] args) {
-	        JFrame.setDefaultLookAndFeelDecorated(true);
-	     
+		 JFrame window = new JFrame();
+	        //JFrame.setDefaultLookAndFeelDecorated(true);
+	       
+	        window.setSize(800, 600);
+	        window.setLocationRelativeTo(null);
+	        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  
 	        new TracerFonction(800,600);
 	    }
 

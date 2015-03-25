@@ -57,8 +57,8 @@ public class TestProjet {
 
     /* This is a very simple plot to demonstrate JavaPlot 3d graphs */
     private static void simple3D() {
-        JavaPlot p = new JavaPlot(true);
-        p.addPlot("sin(x)*y");
+        JavaPlot p = new JavaPlot();
+        p.addPlot("sin(x)");
         p.plot();
     }
 
