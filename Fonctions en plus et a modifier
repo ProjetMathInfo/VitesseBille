@@ -1,0 +1,97 @@
+
+
+public class Test {
+	
+	public static void main(String args[]) {
+		
+		FonctionDerivable f=new TobogganPlan() ;
+		Fonction integrale = new FonctionDeIntegrale(f);
+		Fonction sinus = new Sinus();
+		Integrateur trapeze=new IntTrapeze() ;
+		Integrateur rectangle=new IntRectangle() ;
+		System.out.println(trapeze.integre(integrale,0,1,2)) ;
+		
+		System.out.println(rectangle.integre(integrale,0,1,2)) ;
+		
+		//System.out.println(integrale.eval(1));
+
+	}
+}
+
+public class IntTrapeze implements Integrateur {
+	
+	/* integrale par la methode des trapezes */
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*(f.eval(a+i*(b-a)/n)+f.eval(a+(i+1)*(b-a)/n))/2 ;
+		return new Arrondir(resultat,5).arrondi() ;
+	}
+}
+
+public class IntRectangle implements Integrateur {
+
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*f.eval(a+i*(b-a)/n) ;
+		return new Arrondir(resultat,5).arrondi() ;
+	}
+}
+
+public class FonctionDeIntegrale implements Fonction{
+	
+	private FonctionDerivable formeToboggan;
+
+	// La fonction prend en parametre la forme du toboggan
+	public FonctionDeIntegrale(FonctionDerivable f){
+		this.formeToboggan = f;
+	}
+	
+	// on renvoie la valeur de la fonction de l'integrale pour x
+	public double eval(double x){
+		return Math.sqrt(1+Math.pow(this.formeToboggan.derive().eval(x),2))/Math.sqrt(2*10*this.formeToboggan.eval(x));
+	}
+}
+
+
+
+/* La classe Arrondir contient :
+	2 attributs : 
+	** le nombre x a arrondir
+	** le nombre decimales n
+	* 1 methode arrondir() qui renvoie une chaine de caracteres
+	* 1 methode arrondi() qui renvoie un double
+*/
+
+public class Arrondir {
+	double x;
+	int n;
+
+	public Arrondir(double a, int b){
+		this.x = a;
+		this.n = b;
+	}
+	public String arrondir() {
+		double r =  (Math.round(x*Math.pow(10,n)) )/ (Math.pow(10,n));
+		return Double.toString(r);
+	}
+
+	public double arrondi() {
+		double r =  (Math.round(x*Math.pow(10,n)) )/ (Math.pow(10,n));
+		return r;
+	}
+/*
+public static void main (String args[]) {
+Arrondir r = new Arrondir();
+if (args.length==2) {
+Double d = new Double(args[0]);
+r.x = d.doubleValue() ;
+Integer i = new Integer(args[1]);
+r.n = i.intValue() ;
+System.out.println("arrondir("+r.x+")= "+r.arrondir()+", a 10-"+r.n+" pres" );
+System.out.println("arrondi("+r.x+")= "+r.arrondi()+", a 10-"+r.n+" pres" );      
+}
+else  System.out.println("nombre de parametres incorrect");
+}     */                           
+}
