@@ -1,0 +1,345 @@
+public class Carree implements FonctionDerivable {
+	private FonctionDerivable f ;
+	
+	public Carree(FonctionDerivable f) {}
+	
+	public double eval(double x) {
+		return f.eval(x)*f.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Somme(f,f);
+	}
+	public String toString() {
+		return f+"²" ;
+	}
+}
+
+public class Constante implements FonctionDerivable {
+	private double valeur;
+	
+	public Constante(double constante) {
+		this.valeur = constante;
+	}
+	
+	public double eval(double x) {
+		return  this.valeur;
+	}
+	
+	public FonctionDerivable derive(){
+		return new Constante(0);
+	}
+	
+	public String toString() {
+		return ""+this.valeur;
+	}
+}
+
+public class Difference implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	
+	public Difference(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)-g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Difference(f.derive(),g.derive()) ;
+	}
+	public String toString() {
+		return f+"-"+g ;
+	}
+}
+
+// Creation de l'interface Fonction pour manipuler des objets Fonction
+public interface Fonction {
+	
+	// Chaque fonction dependra d'une valeur x 
+	// Cette methode calculera le resulat en fonction de x grace a l'expression de la fonction 
+	public double eval(double x) ;
+}
+
+public interface FonctionDerivable extends Fonction {
+	
+	// Chaque fonction derivable doit renvoyer sa derivee
+	public FonctionDerivable derive() ;
+}
+
+public interface Integrateur {
+	/* interface representant un schema d’integration numerique */
+	public double integre(Fonction f,double a,double b,int n) ;
+}
+
+public class IntRectangle implements Integrateur {
+
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*f.eval(a+i*(b-a)/n) ;
+		return resultat ;
+	}
+}
+
+public class IntTrapeze implements Integrateur {
+	
+	/* integrale par la methode des trapezes */
+	public double integre(Fonction f,double a,double b,int n) {
+		double resultat=0. ;
+		for (int i=0;i<n;i++)
+			resultat+=(b-a)/n*(f.eval(a+i*(b-a)/n)+f.eval(a+(i+1)*(b-a)/n))/2 ;
+		return resultat ;
+	}
+}
+
+public class Lineaire implements FonctionDerivable{
+	
+	public Lineaire(){}
+	
+	public double eval(double x) {
+		return  x;
+	}
+	
+	public FonctionDerivable derive(){
+		return new Constante(1);
+	}
+	
+	public String toString() {
+		return "x";
+	}
+}
+
+public class Oppose implements FonctionDerivable {
+	private FonctionDerivable f ;
+	
+	public Oppose(FonctionDerivable f) {
+		this.f=f ;
+	}
+	
+	public double eval(double x) {
+		return -f.eval(x) ;
+	}
+	
+	public FonctionDerivable derive() {
+		return new Oppose(f.derive()) ;
+	}
+	
+	public String toString() {
+		return "-"+f ;
+	}
+}
+
+public class Polynome implements Fonction {
+	private double[] coefficients ;
+	
+	public Polynome(double[] coefficients) {
+		this.coefficients=coefficients ;
+	}
+	
+	public double eval(double x) {
+		double resultat=0 ;
+		for (int i=coefficients.length-1;i>0;i--) {
+			resultat+=coefficients[i] ;
+			resultat*=x ;
+		}
+		resultat+=coefficients[0] ;
+		return resultat ;
+	}
+	
+	/* renvoie la somme du polynome appelant et du parametre */
+	public Polynome somme(Polynome p) {
+		int n;
+		if (coefficients.length<p.coefficients.length)
+			n=p.coefficients.length ;
+		else
+		n=coefficients.length ;
+		double[] tab=new double[n] ;
+		for (int i=0;i<n;i++) {
+			if (i<coefficients.length)
+				tab[i]+=coefficients[i] ;
+			if (i<p.coefficients.length)
+				tab[i]+=p.coefficients[i] ;
+		}
+		return new Polynome(tab) ;
+	}
+}
+
+public class Produit implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	
+	// Le constructeur prend en parametre deux fonctions derivables
+	public Produit(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	
+	// renvoie le produit de f et g
+	public double eval(double x) {
+		return f.eval(x)*g.eval(x) ;
+	}
+	
+	// renvoie la derivee de f*g
+	public FonctionDerivable derive() {
+		return new Somme(
+		new Produit(f.derive(),g),
+		new Produit(f,g.derive())) ;
+	}
+	public String toString() {
+		return f+"*"+g ;
+	}
+}
+
+public class Puissance implements FonctionDerivable {
+	private FonctionDerivable fonction ;
+	private int puissance;
+	
+	public Puissance(FonctionDerivable f,int n) {
+		this.puissance = n;
+		this.fonction = f;
+	}
+	
+	public double eval(double x) {
+		return Math.pow(x, this.puissance);
+	}
+	
+	public FonctionDerivable derive() {
+		return new Produit(new Constante(this.puissance),new Puissance(this.fonction,this.puissance-1));
+	}
+	public String toString() {
+		return this.fonction+"^n" ;
+	}
+}
+
+public class Quotient implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	public Quotient(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)/g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Quotient(
+		(new Difference(new Produit(f.derive(),g),new Produit(f,g.derive()))),
+		new Carree(f)) ;
+	}
+	public String toString() {
+		return f+"/"+g ;
+	}
+}
+
+public class RacineCarre implements FonctionDerivable {
+	
+	public RacineCarre(){}
+	
+	public double eval(double x) {
+		return Math.sqrt(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Quotient(new Constante(1),new Produit(new Constante(2),new RacineCarre())) ;
+	}
+	public String toString() {
+		return "√x" ;
+	}
+}
+
+public class Sinus implements FonctionDerivable {
+	
+	private static FonctionDerivable derivee= new Cosinus() ;
+	
+	public Sinus(){}
+	
+	public double eval(double x) {
+		return Math.sin(x) ;
+	}
+	public FonctionDerivable derive() {
+		return derivee ;
+	}
+	public String toString() {
+		return "sin" ;
+	}
+}
+public class Cosinus implements FonctionDerivable {
+	
+	private static FonctionDerivable derivee=new Oppose(new Sinus()) ;
+	
+	public Cosinus() {}
+	
+	public double eval(double x) {
+		return Math.cos(x) ;
+	}
+	public FonctionDerivable derive() {
+		return derivee ;
+	}
+	public String toString() {
+		return "cos" ;
+	}
+}
+
+public class Somme implements FonctionDerivable {
+	private FonctionDerivable f ;
+	private FonctionDerivable g ;
+	
+	public Somme(FonctionDerivable f,FonctionDerivable g) {
+		this.f=f ;
+		this.g=g ;
+	}
+	public double eval(double x) {
+		return f.eval(x)+g.eval(x) ;
+	}
+	public FonctionDerivable derive() {
+		return new Somme(f.derive(),g.derive()) ;
+	}
+	public String toString() {
+		return f+"+"+g ;
+	}
+}
+public class TobogganDoux implements FonctionDerivable{
+	
+	private FonctionDerivable f ;
+
+	public TobogganDoux() {
+		this.f=new Produit(
+				new Produit(
+						new Constante(0.5),new Produit(new RacineCarre(),new Lineaire()))
+						,new Difference(new Constante(5),new Produit(new Constante(3),new Lineaire())));
+	}
+	
+	public double eval(double x) {
+		return 0.5*Math.pow(x, 1.5)*(5-3*x) ;
+	}
+	
+	public FonctionDerivable derive() {
+		return null ;
+	}
+	
+	public String toString() {
+		return "(1/2) * x^(3/2) * (5-3x)"  ;
+	}
+}
+
+public class TobogganRaide extends RacineCarre implements FonctionDerivable{
+	
+	public TobogganRaide(){}
+
+	public String toString() {
+		return "Toboggan plan y(x) = x";
+	}
+}
+
+
+public class TobogganPlan extends Lineaire implements FonctionDerivable{
+	
+	public TobogganPlan(){}
+	
+	public String toString() {
+		return "Toboggan plan y(x) = x";
+	}
+}
+
+
+
