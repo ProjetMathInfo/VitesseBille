@@ -1,18 +1,9 @@
 package maths.fonctions;
 
+//Creation de l'interface Fonction pour manipuler des objets Fonction
 public interface Fonction {
-	public double eval(double x) ;
 	
-	/*public static double dichotomie(Fonction f,double a,double b,double epsilon) {
-		if (f.eval(a)*f.eval(b)>0) 
-			return Double.NaN ;
-		while ((b-a)>epsilon) {
-			double c=(a+b)/2 ;
-			if (f.eval(a)*f.eval(c)<0)
-				b=c ;
-			else
-				a=c ;
-		}
-		return (a+b)/2 ;
-	}*/
+	// Chaque fonction dependra d'une valeur x 
+	// Cette methode calculera le resulat en fonction de x grace a l'expression de la fonction 
+	public double eval(double x) ;
 }

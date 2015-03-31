@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import maths.fonctions.*;
 import java.util.ArrayList;
 
-public class Gaussienne implements Formule{
+public class Gaussienne /*implements Formule*/{
 	private String name;
 	
 	public Gaussienne(){

@@ -1,23 +1,22 @@
 package maths.fonctions;
 
 public class Puissance implements FonctionDerivable {
+	private FonctionDerivable fonction ;
+	private int puissance;
 	
-	private static FonctionDerivable derivee;
-	private FonctionDerivable fonction;
-	private double puissance;
-	
-	public Puissance(FonctionDerivable f,double p){
-		this.fonction=f;
-		this.puissance=p;
+	public Puissance(FonctionDerivable f,int n) {
+		this.puissance = n;
+		this.fonction = f;
 	}
 	
-	public double eval(double a) {
-		return Math.pow(this.fonction.eval(a), this.puissance) ;
+	public double eval(double x) {
+		return Math.pow(x, this.puissance);
 	}
+	
 	public FonctionDerivable derive() {
-		return derivee ;
+		return new Produit(new Constante(this.puissance),new Puissance(this.fonction,this.puissance-1));
 	}
 	public String toString() {
-		return this.fonction+"^"+this.puissance ;
+		return this.fonction+"^n" ;
 	}
 }

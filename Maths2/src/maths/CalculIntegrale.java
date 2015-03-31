@@ -1,20 +1,18 @@
 package maths;
 import maths.fonctions.*;
-
-import java.util.ArrayList;
-
 import maths.formules.*;
 
 public class CalculIntegrale {
 	private Formule formule;
 	private Fonction fonction;
 	private Composite composite;
+	private float valeur;
 
 	public CalculIntegrale(){
-		//par défaut, on résoud avec le PointDuMilieu la fonction lineaire
 		this.fonction=new Lineaire();
 		this.formule=new PointDuMilieu();
 		this.composite=new PointDuMilieu();
+		this.valeur=0;
 	}
 	public CalculIntegrale(Fonction fx){
 		this.fonction=fx;
@@ -33,12 +31,22 @@ public class CalculIntegrale {
 	}
 	
 	public Object[][] executer(int n){
-		return this.formule.resoudre(n,this.getFonction());
+		Object[][] tab=this.formule.resoudre(n,this.fonction);
+		return tab;
 	}
 
 	public Object[][] executerComposite(int n){
 		return this.composite.calculComposite(n,this.getFonction());
 	}
+	
+	public double valeurIntegraleComposite(int n){
+		return this.composite.valeurComposite(this.fonction, 0.0, 1.0, n);
+	}
+
+	public double[][] valeurIntegrale(int n){
+		return this.formule.valeur(this.getFonction(),0.0,1.0,n);
+	}
+	
 	public void setFonction(Fonction fx){
 		this.fonction=fx;
 	}
@@ -58,6 +66,13 @@ public class CalculIntegrale {
 	}
 	public Composite getComposite(){
 		return this.composite;
+	}
+	
+	public float getResultat(){
+		return this.valeur;
+	}
+	public void setResultat(float o){
+		this.valeur=o;
 	}
 
 }

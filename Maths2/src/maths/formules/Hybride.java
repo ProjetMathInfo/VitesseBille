@@ -3,7 +3,7 @@ import maths.fonctions.*;
 import java.util.ArrayList;
 
 
-public class Hybride implements Formule{
+public class Hybride/* implements Formule*/{
 	private String name;
 	
 	public Hybride(){

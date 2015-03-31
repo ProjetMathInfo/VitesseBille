@@ -1,20 +1,18 @@
 package maths.fonctions;
 
-public class Lineaire implements FonctionDerivable {
-	private FonctionDerivable derivee ;
-	private String name;
+public class Lineaire implements FonctionDerivable{
 	
-	public Lineaire() {
-		this.name="x";
-	}
+	public Lineaire(){}
 	
 	public double eval(double x) {
-		return x ;
+		return  x;
 	}
-	public FonctionDerivable derive() {
-		return derivee ;
+	
+	public FonctionDerivable derive(){
+		return new Constante(1);
 	}
+	
 	public String toString() {
-		return this.name;
+		return "x";
 	}
 }
