@@ -49,7 +49,7 @@ public class ErreurQuadrature implements Formule{
 	public double[][] valeur(Fonction fonction,double a,double b,int n){
 		double[][] tabResulatFinal=new double[n][2];
 		
-		FonctionDerivable fx=new Puissance(new Produit(new Constante(4.0),new Lineaire()),1/4);
+		FonctionDerivable fx=new Puissance(new Produit(new Constante(4.0),new Lineaire()),(float)0.25);
 		this.integraleExacte=(float) (fx.eval(1)-fx.eval(0));
 		
 		for(int i=0;i<n;i++){

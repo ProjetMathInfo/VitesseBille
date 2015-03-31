@@ -2,10 +2,10 @@ package maths.fonctions;
 
 public class Puissance implements FonctionDerivable {
 	private FonctionDerivable fonction ;
-	private int puissance;
+	private float puissance;
 	
-	public Puissance(FonctionDerivable f,int n) {
-		this.puissance = n;
+	public Puissance(FonctionDerivable f,float q) {
+		this.puissance = q;
 		this.fonction = f;
 	}
 	
@@ -17,6 +17,6 @@ public class Puissance implements FonctionDerivable {
 		return new Produit(new Constante(this.puissance),new Puissance(this.fonction,this.puissance-1));
 	}
 	public String toString() {
-		return this.fonction+"^n" ;
+		return this.fonction+"^"+this.puissance ;
 	}
 }
